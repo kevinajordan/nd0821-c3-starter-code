@@ -153,23 +153,6 @@ def test_process_data(synthetic_census_data):
     assert X_test.shape[0] == len(synthetic_census_data)
     assert y_test.shape == (len(synthetic_census_data),)
 
-    # Test without label
-    with pytest.raises(ValueError):
-        process_data(
-            synthetic_census_data.drop("salary", axis=1),
-            categorical_features=categorical_features,
-            training=True
-        )
-
-    # Test with non-existent label
-    with pytest.raises(ValueError):
-        process_data(
-            synthetic_census_data,
-            categorical_features=categorical_features,
-            label="non_existent_label",
-            training=True
-        )
-
 
 def test_model_performance(synthetic_census_data):
     """

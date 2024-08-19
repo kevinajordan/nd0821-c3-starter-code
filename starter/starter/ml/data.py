@@ -65,12 +65,13 @@ def process_data(
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
-        y = lb.fit_transform(y.values).ravel()
+        if y.size > 0:  # Check if y is not empty
+            y = lb.fit_transform(y.values).ravel()
     else:
         X_categorical = encoder.transform(X_categorical)
         try:
-            y = lb.transform(y.values).ravel()
-        # Catch the case where y is None because we're doing inference.
+            if y.size > 0:  # Check if y is not empty
+                y = lb.transform(y.values).ravel()
         except AttributeError:
             pass
 
