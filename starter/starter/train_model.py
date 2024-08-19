@@ -1,18 +1,21 @@
-# Script to train machine learning model.
-
 from sklearn.model_selection import train_test_split
 from ml.data import process_data
-from ml.model import train_model, save_model, compute_model_metrics, inference, compute_sliced_metrics, print_slice_metrics
+from ml.model import (
+    train_model, 
+    save_model, 
+    compute_model_metrics, 
+    inference, 
+    compute_sliced_metrics, 
+    print_slice_metrics
+)
 import pandas as pd
-import joblib
-import numpy as np
-import os
-import sys
 import logging
+
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
+
 
 def save_evaluations(overall_metrics, slice_metrics, log_path):
     """
@@ -43,6 +46,7 @@ def save_evaluations(overall_metrics, slice_metrics, log_path):
                 f.write(f"    F-beta: {value_metrics['fbeta']:.4f}\n")
                 f.write(f"    Support: {value_metrics['support']}\n")
 
+
 # Load and prepare data
 logger.info("Loading data")
 data = pd.read_csv("data/census.csv")
@@ -62,12 +66,21 @@ cat_features = [
     "native-country",
 ]
 X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=cat_features, label="salary", training=True
+    train, 
+    categorical_features=cat_features, 
+    label="salary", 
+    training=True
 )
 logger.info("Processing test data")
 X_test, y_test, encoder, lb = process_data(
-    test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
+    test, 
+    categorical_features=cat_features, 
+    label="salary", 
+    training=False, 
+    encoder=encoder, 
+    lb=lb
 )
+
 
 # Train and save model
 logger.info("Training model")
@@ -79,7 +92,10 @@ save_model(model, encoder, lb, "model/model.pkl")
 # Compute overall metrics
 logger.info("Computing overall metrics")
 y_pred = inference(model, X_test)
-overall_metrics = dict(zip(["precision", "recall", "fbeta"], compute_model_metrics(y_test, y_pred)))
+overall_metrics = dict(zip(
+    ["precision", "recall", "fbeta"], 
+    compute_model_metrics(y_test, y_pred)
+    ))
 
 # Compute slice metrics
 logger.info("Computing slice metrics")

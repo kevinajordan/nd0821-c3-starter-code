@@ -1,8 +1,6 @@
-from typing import Literal
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 import joblib
-import numpy as np
 import pandas as pd
 import logging
 
@@ -15,6 +13,7 @@ app = FastAPI()
 model = joblib.load("model/model.pkl")
 encoder = joblib.load("model/encoder.pkl")
 lb = joblib.load("model/lb.pkl")
+
 
 class CensusData(BaseModel):
     """
@@ -71,19 +70,23 @@ class CensusData(BaseModel):
             }
         }
 
+
 @app.get("/")
 async def root():
     """
     Root endpoint for the Census Data API.
 
-    This endpoint provides basic information about the API, including a greeting,
+    This endpoint provides basic information about the API,
+    including a greeting, a brief description of its purpose,
     a brief description of its purpose, and a list of available endpoints.
 
     Returns:
         dict: A dictionary containing the API information.
             - greeting (str): A welcome message.
-            - description (str): A brief description of the API's purpose.
-            - endpoints (dict): A dictionary of available endpoints and their descriptions.
+            - description (str): 
+            A brief description of the API's purpose.
+            - endpoints (dict): 
+                A dictionary of available endpoints and their descriptions.
     """
     return {
         "greeting": "Welcome to the Census Data API!",
@@ -97,20 +100,25 @@ async def root():
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
+
 @app.post("/predict")
 async def predict(data: CensusData):
     """
     Predict salary based on census data.
 
-    This endpoint receives census data as input and returns a salary prediction.
+    This endpoint receives census data as input 
+    and returns a salary prediction.
 
     Args:
         data (CensusData): The input census data.
 
     Returns:
-        dict: A dictionary containing the prediction label and probability.
-            - prediction (str): The predicted salary category (">50K" or "<=50K").
-            - probability (float): The probability of the prediction.
+        dict: 
+        A dictionary containing the prediction label and probability.
+            - prediction (str): 
+                The predicted salary category (">50K" or "<=50K").
+            - probability (float): 
+                The probability of the prediction.
 
     Raises:
         HTTPException: If an error occurs during the prediction process.

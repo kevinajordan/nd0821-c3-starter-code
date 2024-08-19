@@ -4,6 +4,7 @@ pandas
 scikit-learn
 xgboost
 pytest
+flake8
 requests
 joblib
 fastapi

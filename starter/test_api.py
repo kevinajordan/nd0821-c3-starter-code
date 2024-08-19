@@ -5,6 +5,7 @@ from unittest.mock import patch
 # Define the base URL of the live API server
 BASE_URL = "http://localhost:8000"
 
+
 def test_get_root():
     response = requests.get(f"{BASE_URL}/")
     assert response.status_code == 200
@@ -16,6 +17,7 @@ def test_get_root():
             "/predict": "POST endpoint for salary prediction"
         }
     }
+
 
 @pytest.mark.parametrize("mocked_prediction", [
     ([1]),
@@ -31,7 +33,8 @@ def test_post_predict(mock_inference, mocked_prediction):
 
     Args:
         mock_inference (MagicMock): Mocked inference function
-        mocked_prediction (list): Mocked prediction from the model (either [0] or [1])
+        mocked_prediction (list):
+            - Mocked prediction from the model (either [0] or [1])
 
     The test sends a POST request with sample census data and asserts:
     1. The response status code is 200 (OK)

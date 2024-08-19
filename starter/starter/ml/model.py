@@ -1,4 +1,3 @@
-import pandas as pd
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 import xgboost as xgb
 import joblib
@@ -29,7 +28,8 @@ def train_model(X_train, y_train):
 
 def compute_model_metrics(y, preds):
     """
-    Validates the trained machine learning model using precision, recall, and F1.
+    Validates the trained machine learning model 
+    using precision, recall, and F1.
 
     Inputs
     ------
@@ -54,14 +54,14 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
-        Trained machine learning model.
+    model : xgb.XGBClassifier
+        Trained XGBoost classifier model.
     X : np.array
         Data used for prediction.
     Returns
     -------
     preds : np.array
-        Predictions from the model.
+        Predictions from the model. Binary classification results (0 or 1).
     """
     return model.predict(X)
 
@@ -74,13 +74,14 @@ def save_model(model, encoder, lb, model_path):
     joblib.dump(encoder, "model/encoder.pkl")
     joblib.dump(lb, "model/lb.pkl")
 
+
 def compute_sliced_metrics(model, X, y, feature_index):
     """
     Compute performance metrics on slices of the data for a given feature.
 
     Inputs
     ------
-    model : 
+    model :
         Trained machine learning model.
     X : np.array
         Encoded feature data.
@@ -92,7 +93,8 @@ def compute_sliced_metrics(model, X, y, feature_index):
     Returns
     -------
     slice_metrics : dict
-        Dictionary with feature values as keys and their corresponding metrics as values.
+        Dictionary with feature values as keys and their corresponding metrics
+        as values.
     """
     slice_metrics = {}
     unique_values = np.unique(X[:, feature_index])
@@ -114,6 +116,7 @@ def compute_sliced_metrics(model, X, y, feature_index):
 
     return slice_metrics
 
+
 def print_slice_metrics(slice_metrics, feature_name):
     """
     Print the metrics for each slice of the specified feature.
@@ -121,7 +124,8 @@ def print_slice_metrics(slice_metrics, feature_name):
     Inputs
     ------
     slice_metrics : dict
-        Dictionary with feature values as keys and their corresponding metrics as values.
+        Dictionary with feature values as keys and their corresponding metrics
+        as values.
     feature_name : str
         Name of the feature that was sliced on.
     """
