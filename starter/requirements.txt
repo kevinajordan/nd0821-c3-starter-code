@@ -10,3 +10,4 @@ fastapi
 gunicorn
 pydantic
 httpx
+uvicorn
